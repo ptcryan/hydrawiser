@@ -1,0 +1,6 @@
+*.pyc
+Icon?
+.tox/
+*.egg-info
+__pycache__/
+.coverage
