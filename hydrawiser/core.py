@@ -108,7 +108,7 @@ class Hydrawiser(object):
         :param relay: The relay being queried.
         :type relay: int
         :param attribute: The attribute being queried, or all attributes for
-        that relay if None is specified.
+                          that relay if None is specified.
         :type attribute: string or None
         :returns: The attribute being queried or None if not found.
         :rtype: string or int
@@ -136,7 +136,7 @@ class Hydrawiser(object):
         :param days: Number of days to suspend the zone(s)
         :type days: int
         :param zone: The zone to suspend. If no zone is specified then suspend
-        all zones
+                     all zones
         :type zone: int or None
         :returns: The response from set_zones() or None if there was an error.
         :rtype: None or string
@@ -167,7 +167,7 @@ class Hydrawiser(object):
         :param minutes: The number of minutes to run.
         :type minutes: int
         :param zone: The zone number to run. If no zone is specified then run
-        all zones.
+                     all zones.
         :type zone: int or None
         :returns: The response from set_zones() or None if there was an error.
         :rtype: None or string
@@ -198,7 +198,7 @@ class Hydrawiser(object):
         Returns the currently active relay.
 
         :returns: Returns the running relay number or None if no relays are
-        active.
+                  active.
         :rtype: string
         """
 
@@ -215,7 +215,7 @@ class Hydrawiser(object):
         :param zone: The zone to check.
         :type zone: int
         :returns: Returns True if the zone is currently running, otherwise
-        returns False if the zone is not running.
+                  returns False if the zone is not running.
         :rtype: boolean
         """
 
@@ -234,10 +234,10 @@ class Hydrawiser(object):
         Returns the amount of watering time left in seconds.
 
         :param zone: The zone to check.
-        :param type: int
+        :type zone: int
         :returns: If the zone is not running returns 0. If the zone doesn't
-        exist returns None. Otherwise returns number of seconds left in the
-        watering cycle.
+                  exist returns None. Otherwise returns number of seconds left
+                  in the watering cycle.
         :rtype: None or seconds left in the waterting cycle.
         """
 

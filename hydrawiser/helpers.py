@@ -13,7 +13,7 @@ def status_schedule(token):
     :param token: The users API token.
     :type token: string
     :returns: The response from the controller. If there was an error returns
-    None.
+              None.
     :rtype: string or None
     """
 
@@ -40,8 +40,8 @@ def customer_details(token):
     :param token: The users API token.
     :type token: string
     :returns: The response from the controller. If there was an error returns
-    None.
-    :rtype: String or None.
+              None.
+    :rtype: string or None.
     """
 
     url = 'https://app.hydrawise.com/api/v1/customerdetails.php'
@@ -66,16 +66,16 @@ def set_zones(token, action, relay=None, time=None):
     :param token: The users API token.
     :type token: string
     :param action: The action to perform. Available actions are: run, runall,
-    stop, stopall, suspend, and suspendall.
+                   stop, stopall, suspend, and suspendall.
     :type action: string
     :param relay: The zone to take action on. If no zone is specified then the
-    action will be on all zones.
+                  action will be on all zones.
     :type relay: int or None
     :param time: The number of seconds to run or unix epoch time to suspend.
     :type time: int or None
     :returns: The response from the controller. If there was an error returns
-    None.
-    :rtype: String or None
+              None.
+    :rtype: string or None
     """
     # Actions must be one from this list.
     action_list = [
