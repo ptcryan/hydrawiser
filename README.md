@@ -1,4 +1,6 @@
 # Hydrawiser
+[![Coverage Status](https://coveralls.io/repos/github/ptcryan/hydrawiser/badge.svg?branch=master)](https://coveralls.io/github/ptcryan/hydrawiser?branch=master)
+[![Build Status](https://travis-ci.org/ptcryan/hydrawiser.svg?branch=master)](https://travis-ci.org/ptcryan/hydrawiser)
 
 This is a Python 2 and 3 library for controlling the [Hunter](https://www.hunterindustries.com) Pro-HC sprinkler controller.
 
@@ -6,7 +8,8 @@ This is a Python 2 and 3 library for controlling the [Hunter](https://www.hunter
 
 Hydrawise Youtube video: https://youtu.be/raOEK8JjSUA<br/>
 Hydrawise official site: https://hydrawise.com<br/>
-Source code documentation: https://hydrawiser.readthedocs.io
+Source code documentation: https://hydrawiser.readthedocs.io<br/>
+Python Package Index: https://pypi.org/project/Hydrawiser/
 
 ## Usage
 ```python
