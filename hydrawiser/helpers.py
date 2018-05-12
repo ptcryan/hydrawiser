@@ -4,6 +4,8 @@ commands to the controller.
 """
 import requests
 
+REQUESTS_TIMEOUT = 10
+
 
 def status_schedule(token):
     """
@@ -23,7 +25,7 @@ def status_schedule(token):
         'api_key': token,
         'hours': 168}
 
-    get_response = requests.get(url, params=payload)
+    get_response = requests.get(url, params=payload, timeout=REQUESTS_TIMEOUT)
 
     if get_response.status_code == 200 and \
        'error_msg' not in get_response.json():
@@ -50,7 +52,7 @@ def customer_details(token):
         'api_key': token,
         'type': 'controllers'}
 
-    get_response = requests.get(url, params=payload)
+    get_response = requests.get(url, params=payload, timeout=REQUESTS_TIMEOUT)
 
     if get_response.status_code == 200 and \
        'error_msg' not in get_response.json():
@@ -123,7 +125,8 @@ def set_zones(token, action, relay=None, time=None):
                                         action,
                                         relay_cmd,
                                         period_cmd,
-                                        custom_cmd))
+                                        custom_cmd),
+                                timeout=REQUESTS_TIMEOUT)
 
     if get_response.status_code == 200 and \
        'error_msg' not in get_response.json():
