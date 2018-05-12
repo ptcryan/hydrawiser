@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/ptcryan/hydrawiser.svg?branch=master)](https://travis-ci.org/ptcryan/hydrawiser)
 [![Documentation Status](https://readthedocs.org/projects/hydrawiser/badge/?version=latest)](http://hydrawiser.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/Hydrawiser.svg)](https://badge.fury.io/py/Hydrawiser)
+![Format](https://img.shields.io/pypi/format/hydrawiser.svg)
+![License](https://img.shields.io/pypi/l/hydrawiser.svg)
 
 This is a Python 2 and 3 library for controlling the [Hunter](https://www.hunterindustries.com) Pro-HC sprinkler controller.
 
