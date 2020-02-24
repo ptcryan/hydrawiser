@@ -11,7 +11,7 @@ import time
 from hydrawiser.helpers import customer_details, status_schedule, set_zones
 
 
-class Hydrawiser(object):
+class Hydrawiser():
     """
     :param user_token: User account API key
     :type user_token: string
@@ -30,12 +30,10 @@ class Hydrawiser(object):
         self.status = None
         self.controller_id = None
         self.customer_id = None
-        self.user_id = None
         self.num_relays = None
         self.relays = []
         self.status = None
         self.name = None
-        self.watering_time = None
         self.sensors = []
         self.running = None
 
@@ -62,11 +60,9 @@ class Hydrawiser(object):
         self.status = self.current_controller['status']
         self.controller_id = self.current_controller['controller_id']
         self.customer_id = self.controller_info['customer_id']
-        self.user_id = self.controller_status['user_id']
         self.num_relays = len(self.controller_status['relays'])
         self.relays = self.controller_status['relays']
-        self.name = self.controller_status['name']
-        self.watering_time = self.controller_status['watering_time']
+        self.name = self.controller_info['controllers'][0]['name']
         self.sensors = self.controller_status['sensors']
         try:
             self.running = self.controller_status['running']

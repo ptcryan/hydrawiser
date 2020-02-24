@@ -22,8 +22,7 @@ def status_schedule(token):
     url = 'https://app.hydrawise.com/api/v1/statusschedule.php'
 
     payload = {
-        'api_key': token,
-        'hours': 168}
+        'api_key': token}
 
     get_response = requests.get(url, params=payload, timeout=REQUESTS_TIMEOUT)
 

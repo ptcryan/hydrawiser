@@ -13,38 +13,36 @@ class TestHydrawiserCore(UnitTestBase):
         self.assertTrue(hasattr(self.rdy, 'status'))
         self.assertTrue(hasattr(self.rdy, 'controller_id'))
         self.assertTrue(hasattr(self.rdy, 'customer_id'))
-        self.assertTrue(hasattr(self.rdy, 'user_id'))
         self.assertTrue(hasattr(self.rdy, 'num_relays'))
         self.assertTrue(hasattr(self.rdy, 'name'))
-        self.assertTrue(hasattr(self.rdy, 'watering_time'))
         self.assertTrue(hasattr(self.rdy, 'sensors'))
 
     def test_controller(self):
         """ Test if the correct controller is present. """
 
-        self.assertEquals(self.rdy.controller(), self.rdy.controller_id)
+        self.assertEqual(self.rdy.controller(), self.rdy.controller_id)
 
     def test_object_name(self):
         """ Tests if the object name is correct. """
 
         object_name = '<Hydrawiser: {}>'.format(self.rdy.controller_id)
 
-        self.assertEquals(self.rdy.__repr__(), object_name)
+        self.assertEqual(self.rdy.__repr__(), object_name)
 
     def test_relay_info(self):
         """ Tests if the relay method is giving proper information. """
 
         # Test if None is returned for an invalid relay number.
-        self.assertEquals(self.rdy.relay_info(7), None)
+        self.assertEqual(self.rdy.relay_info(7), None)
 
         # Test if multiple attributes are returned if only relay is specified.
-        self.assertEquals(len(self.rdy.relay_info(0)), 12)
+        self.assertEqual(len(self.rdy.relay_info(0)), 12)
 
         # Test is correct relay name is returned.
-        self.assertEquals(self.rdy.relay_info(0, 'name'), 'Right yard')
+        self.assertEqual(self.rdy.relay_info(0, 'name'), 'Right yard')
 
         # Test if None is returned if the attribute doesn't exist.
-        self.assertEquals(self.rdy.relay_info(0, 'blech'), None)
+        self.assertEqual(self.rdy.relay_info(0, 'blech'), None)
 
     @requests_mock.Mocker()
     def test_suspend_zone(self, mock):
