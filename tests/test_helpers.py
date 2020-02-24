@@ -12,8 +12,7 @@ def test_status_schedule():
         # Test a valid api_key.
         m.get('https://app.hydrawise.com/api/v1/statusschedule.php?'
               'api_key={}'
-              '&hours={}'
-              .format(GOOD_API_KEY, 168),
+              .format(GOOD_API_KEY),
               text=good_string)
 
         return_value = status_schedule(GOOD_API_KEY)
@@ -22,8 +21,7 @@ def test_status_schedule():
         # Test an invalid api_key.
         m.get('https://app.hydrawise.com/api/v1/statusschedule.php?'
               'api_key={}'
-              '&hours={}'
-              .format(BAD_API_KEY, 168),
+              .format(BAD_API_KEY),
               text=unauthorized_string)
 
         return_value = status_schedule(BAD_API_KEY)

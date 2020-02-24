@@ -14,6 +14,7 @@ class TestHydrawiserCore(UnitTestBase):
         self.assertTrue(hasattr(self.rdy, 'controller_id'))
         self.assertTrue(hasattr(self.rdy, 'customer_id'))
         self.assertTrue(hasattr(self.rdy, 'num_relays'))
+        self.assertTrue(hasattr(self.rdy, 'name'))
         self.assertTrue(hasattr(self.rdy, 'sensors'))
 
     def test_controller(self):

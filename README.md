@@ -8,7 +8,7 @@
 
 This is a Python 2 and 3 library for controlling the [Hunter](https://www.hunterindustries.com) Pro-HC sprinkler controller.
 
-*Note that this project has no official relationship to Hunter Industries. It was developed using the [Hydrawise API](https://support.hydrawise.com/hc/en-us/article_attachments/205632298/Hydrawise_API.pdf). Use at your own risk.*
+*Note that this project has no official relationship to Hunter Industries. It was developed using the Hydrawise API v1.4. Use at your own risk.*
 
 Hydrawise Youtube video: https://youtu.be/raOEK8JjSUA<br/>
 Hydrawise official site: https://hydrawise.com<br/>
@@ -46,7 +46,7 @@ hw.num_relays
 hw.relays[2]  # Return information for the 3rd relay. Relays is zero indexed.
 
 # Get the name of the 1st relay.
-hw.relay_info[0, 'name')
+hw.relay_info(0, 'name')
 'Back yard'
 
 # Suspend all relays for 60 days.
