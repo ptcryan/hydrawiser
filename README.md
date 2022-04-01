@@ -15,7 +15,7 @@ Hydrawise official site: https://hydrawise.com<br/>
 Source code documentation: https://hydrawiser.readthedocs.io<br/>
 Python Package Index: https://pypi.org/project/Hydrawiser/
 
-## Usage
+## Usage API v1
 ```python
 from hydrawiser.core import Hydrawiser
 
@@ -74,7 +74,30 @@ True
 hw.time_remaining(3)
 247
 ```
+### Limitations
 
-## Limitations
+  - Only one controller is supported
+  - No sensor data
 
-* Only one controller is supported
+
+## Hydrawise GraphQL API (v2)
+
+```python
+
+from hydrawiser.core_v2 import HydrawiserV2
+
+hw = HydrawiserV2('<you email>', '<your hydrawise password>')
+
+# Information about your account
+hw.customer()
+
+# List all controllers
+hw.controllers()
+
+# List all controllers and their sensors
+hw.sensors()
+
+# List all controllers and their zones
+hw.zones()
+```
+
