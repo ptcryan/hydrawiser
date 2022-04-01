@@ -90,6 +90,7 @@ class HydrawiserV2():
             controllers {
               id
               name
+              online
               deviceId
               wizardComplete
               hardware {
@@ -104,6 +105,56 @@ class HydrawiserV2():
                 value
                 timestamp
               }
+            }
+          }
+        }
+        """)
+        result = self._client.execute(query)
+        return result['me']['controllers']
+
+    def zones(self, controllerId = None):
+        query = gql("""{
+          me {
+            controllers {
+              id
+              name
+              zones {
+                id
+                name
+              }
+            }
+          }
+        }
+        """)
+        result = self._client.execute(query)
+        return result['me']['controllers']
+
+    def sensors(self, controllerId = None):
+        query = gql("""{
+          me {
+            controllers {
+                id
+                name
+                sensors {
+                    id
+                    name
+                    model {
+                      id
+                      name
+                      modeType
+                      active
+                      offLevel
+                      offTimer
+                      delay
+                      divisor
+                      flowRate
+                      customerId
+                      sensorType
+                      category {
+                        name
+                      }
+                    }
+                }
             }
           }
         }
