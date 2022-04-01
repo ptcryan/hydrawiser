@@ -13,6 +13,8 @@ class HydrawiserV2():
     :type email: string
     :param password: Hydrawise account password
     :type password: string
+    :param timeout: Requests timeout in seconds
+    :type timeout: int
     :returns: Hydrawiser object.
     :rtype: object
     """
@@ -21,7 +23,8 @@ class HydrawiserV2():
     TOKEN_ENDPOINT = 'https://app.hydrawise.com/api/v2/oauth/access-token'
     API_ENDPOINT = 'https://app.hydrawise.com/api/v2/graph'
 
-    def __init__(self, email, password):
+    def __init__(self, email, password, timeout=10):
+        self.timeout = timeout
         self._token = self.__fetch_token(email, password)
         self._client = self.__client(self._token)
 
@@ -50,7 +53,8 @@ class HydrawiserV2():
         resp = requests.post(
             self.TOKEN_ENDPOINT,
             headers={"Content-Type": "application/x-www-form-urlencoded"},
-            data=payload
+            data=payload,
+            timeout=self.timeout
         )
 
         if resp.status_code != 200:
@@ -75,6 +79,7 @@ class HydrawiserV2():
             headers=headers,
             use_json=True,
             verify=True,
+            timeout=self.timeout,
             retries=3,
         )
 
