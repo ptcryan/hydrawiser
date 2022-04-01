@@ -8,10 +8,6 @@ import requests
 
 
 class HydrawiserV2():
-    CLIENT_ID = 'hydrawise_app'
-    CLIENT_SECRET = 'zn3CrjglwNV1'
-    TOKEN_ENDPOINT = 'https://app.hydrawise.com/api/v2/oauth/access-token'
-    API_ENDPOINT = 'https://app.hydrawise.com/api/v2/graph'
     """
     :param email: E-mail used during Hydrawise account registration
     :type email: string
@@ -20,12 +16,28 @@ class HydrawiserV2():
     :returns: Hydrawiser object.
     :rtype: object
     """
+    CLIENT_ID = 'hydrawise_app'
+    CLIENT_SECRET = 'zn3CrjglwNV1'
+    TOKEN_ENDPOINT = 'https://app.hydrawise.com/api/v2/oauth/access-token'
+    API_ENDPOINT = 'https://app.hydrawise.com/api/v2/graph'
 
     def __init__(self, email, password):
         self._token = self.__fetch_token(email, password)
         self._client = self.__client(self._token)
 
     def __fetch_token(self, username, password):
+        """
+        Retrieves OAuth2 token and refresh token
+
+        :param username: E-mail used during Hydrawise account registration
+        :type username: string
+        :param password: Hydrawise account password
+        :type password: string
+
+        :returns: JSON object containing access_token, refresh_token
+        :rtype: JSON
+        """
+
         payload = {
             'grant_type': 'password',
             'client_id': self.CLIENT_ID,
@@ -47,6 +59,13 @@ class HydrawiserV2():
         return resp.json()
 
     def __client(self, token):
+        """
+        Create gql client for communication with remote GraphQL API.
+
+        :returns: GraphQL Client object
+        :rtype: gql.Client
+        """
+
         headers = {
             'Authorization': token['token_type'] + ' ' + token['access_token']
         }
@@ -65,6 +84,14 @@ class HydrawiserV2():
         )
 
     def customer(self):
+        """
+        Fetches basic information about current user including all registered
+        controllers.
+
+        :returns: Information about current user
+        :rtype: dict
+        """
+
         query = gql("""{
           me {
             id
@@ -85,6 +112,13 @@ class HydrawiserV2():
         return result['me']
 
     def controllers(self):
+        """
+        List all registered controllers, their IDs, version and status.
+
+        :returns: Controllers information
+        :rtype: array
+        """
+
         query = gql("""{
           me {
             controllers {
@@ -112,7 +146,14 @@ class HydrawiserV2():
         result = self._client.execute(query)
         return result['me']['controllers']
 
-    def zones(self, controllerId = None):
+    def zones(self, controller_id=None):
+        """
+        List all zones and its controllers, their id and names.
+
+        :returns: Available zones
+        :rtype: array
+        """
+
         query = gql("""{
           me {
             controllers {
@@ -129,7 +170,15 @@ class HydrawiserV2():
         result = self._client.execute(query)
         return result['me']['controllers']
 
-    def sensors(self, controllerId = None):
+    def sensors(self, controller_id=None):
+        """
+        List all sensors connected to a controller, their id and status
+        information.
+
+        :returns: Sensors list and state.
+        :rtype: array
+        """
+
         query = gql("""{
           me {
             controllers {

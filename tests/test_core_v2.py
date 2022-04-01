@@ -11,7 +11,7 @@ class UnitTestBase(unittest.TestCase):
     @requests_mock.Mocker()
     def setUp(self, mock):
         """Initialize rdy object for unittests."""
-        from hydrawiser.graphql import HydrawiserV2
+        from hydrawiser.core_v2 import HydrawiserV2
 
         mock.post(
             HydrawiserV2.TOKEN_ENDPOINT,

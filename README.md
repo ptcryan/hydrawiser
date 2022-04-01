@@ -84,7 +84,7 @@ hw.time_remaining(3)
 
 ```python
 
-from hydrawiser.graphql import HydrawiserV2
+from hydrawiser.core_v2 import HydrawiserV2
 
 hw = HydrawiserV2('<you email>', '<your hydrawise password>')
 
