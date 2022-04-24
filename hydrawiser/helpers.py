@@ -105,6 +105,9 @@ def set_zones(token, action, relay=None, time=None):
     if action in ['run', 'runall', 'suspend', 'suspendall']:
         if time is None:
             return None
+        elif time <= 0:
+            custom_cmd = ''
+            period_cmd = '&period_id=0'
         else:
             custom_cmd = '&custom={}'.format(time)
             period_cmd = '&period_id=999'
