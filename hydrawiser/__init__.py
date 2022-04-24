@@ -6,6 +6,6 @@ and Pro-HC sprinkler controllers.
 """
 
 __author__ = 'David Ryan'
-__version__ = '0.2'
+__version__ = '0.2.1'
 __copyright__ = 'Copyright (c) 2020 David Ryan'
 __license__ = 'MIT'
