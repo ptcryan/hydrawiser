@@ -9,6 +9,7 @@ attributes available.
 
 import time
 from hydrawiser.helpers import customer_details, status_schedule, set_zones
+from requests.exceptions import ConnectTimeout, HTTPError
 
 
 class Hydrawiser():
@@ -48,8 +49,13 @@ class Hydrawiser():
         """
 
         # Read the controller information.
-        self.controller_info = customer_details(self._user_token)
-        self.controller_status = status_schedule(self._user_token)
+        try:
+            self.controller_info = customer_details(self._user_token)
+            self.controller_status = status_schedule(self._user_token)
+        except HTTPError as err:
+            # Handling the newly introduced rate limit
+            if err.response.status_code == 429:
+                raise HTTPError(err.response.text)
 
         if self.controller_info is None or self.controller_status is None:
             return False

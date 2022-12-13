@@ -19,12 +19,13 @@ def status_schedule(token):
     :rtype: string or None
     """
 
-    url = 'https://app.hydrawise.com/api/v1/statusschedule.php'
+    url = 'https://api.hydrawise.com/api/v1/statusschedule.php'
 
     payload = {
         'api_key': token}
 
     get_response = requests.get(url, params=payload, timeout=REQUESTS_TIMEOUT)
+    get_response.raise_for_status()
 
     if get_response.status_code == 200 and \
        'error_msg' not in get_response.json():
@@ -45,13 +46,14 @@ def customer_details(token):
     :rtype: string or None.
     """
 
-    url = 'https://app.hydrawise.com/api/v1/customerdetails.php'
+    url = 'https://api.hydrawise.com/api/v1/customerdetails.php'
 
     payload = {
         'api_key': token,
         'type': 'controllers'}
 
     get_response = requests.get(url, params=payload, timeout=REQUESTS_TIMEOUT)
+    get_response.raise_for_status()
 
     if get_response.status_code == 200 and \
        'error_msg' not in get_response.json():
@@ -116,7 +118,7 @@ def set_zones(token, action, relay=None, time=None):
     if action in ['stop', 'run', 'suspend'] and relay is None:
         return None
 
-    get_response = requests.get('https://app.hydrawise.com/api/v1/'
+    get_response = requests.get('https://api.hydrawise.com/api/v1/'
                                 'setzone.php?'
                                 '&api_key={}'
                                 '&action={}{}{}{}'

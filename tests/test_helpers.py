@@ -10,7 +10,7 @@ def test_status_schedule():
     with requests_mock.Mocker() as m:
 
         # Test a valid api_key.
-        m.get('https://app.hydrawise.com/api/v1/statusschedule.php?'
+        m.get('https://api.hydrawise.com/api/v1/statusschedule.php?'
               'api_key={}'
               .format(GOOD_API_KEY),
               text=good_string)
@@ -19,7 +19,7 @@ def test_status_schedule():
         assert return_value is not None
 
         # Test an invalid api_key.
-        m.get('https://app.hydrawise.com/api/v1/statusschedule.php?'
+        m.get('https://api.hydrawise.com/api/v1/statusschedule.php?'
               'api_key={}'
               .format(BAD_API_KEY),
               text=unauthorized_string)
@@ -33,7 +33,7 @@ def test_customer_details():
     with requests_mock.Mocker() as m:
 
         # Test a valid api_key.
-        m.get('https://app.hydrawise.com/api/v1/customerdetails.php?'
+        m.get('https://api.hydrawise.com/api/v1/customerdetails.php?'
               'api_key={}'
               '&type={}'
               .format(GOOD_API_KEY, 'controllers'),
@@ -43,7 +43,7 @@ def test_customer_details():
         assert return_value is not None
 
         # Test an invalid api_key.
-        m.get('https://app.hydrawise.com/api/v1/customerdetails.php?'
+        m.get('https://api.hydrawise.com/api/v1/customerdetails.php?'
               'api_key={}'
               '&type={}'
               .format(BAD_API_KEY, 'controllers'),
@@ -67,7 +67,7 @@ def test_set_zones():
         error_string = '{"message": "not ok", "message_type": "error"}'
 
         # Test positive use of the stop command.
-        m.get('https://app.hydrawise.com/api/v1/setzone.php?'
+        m.get('https://api.hydrawise.com/api/v1/setzone.php?'
               'api_key={}'
               '&action={}'
               '&relay_id={}'
@@ -78,7 +78,7 @@ def test_set_zones():
         assert return_value is not None
 
         # Test negative use of the stop command.
-        m.get('https://app.hydrawise.com/api/v1/setzone.php?'
+        m.get('https://api.hydrawise.com/api/v1/setzone.php?'
               'api_key={}'
               '&action={}'
               .format(GOOD_API_KEY, 'stop'),
@@ -88,7 +88,7 @@ def test_set_zones():
         assert return_value is None
 
         # Test positive use of stopall.
-        m.get('https://app.hydrawise.com/api/v1/setzone.php?'
+        m.get('https://api.hydrawise.com/api/v1/setzone.php?'
               'api_key={}'
               '&action={}'
               .format(GOOD_API_KEY, 'stopall'),
@@ -98,7 +98,7 @@ def test_set_zones():
         assert return_value is not None
 
         # Test positive use of run.
-        m.get('https://app.hydrawise.com/api/v1/setzone.php?'
+        m.get('https://api.hydrawise.com/api/v1/setzone.php?'
               'api_key={}'
               '&action={}'
               '&relay_id={}'
@@ -118,7 +118,7 @@ def test_set_zones():
         assert return_value is None
 
         # Test positive use of runall.
-        m.get('https://app.hydrawise.com/api/v1/setzone.php?'
+        m.get('https://api.hydrawise.com/api/v1/setzone.php?'
               'api_key={}'
               '&action={}'
               '&period_id={}'
@@ -138,7 +138,7 @@ def test_set_zones():
         assert return_value is None
 
         # Test bad api_key.
-        m.get('https://app.hydrawise.com/api/v1/setzone.php?'
+        m.get('https://api.hydrawise.com/api/v1/setzone.php?'
               'api_key={}'
               '&action={}'
               '&period_id={}'
