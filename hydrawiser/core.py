@@ -27,13 +27,16 @@ class Hydrawiser():
         self.controller_info = []
         self.controller_status = []
         self.current_controller = []
-        self.status = None
-        self.controller_id = None
+        self.statuses = []
+        self.controller_ids_info = []
+        self.controller_ids = []
         self.customer_id = None
-        self.num_relays = None
+        self.num_relays = 0
         self.relays = []
+        self.controllers_to_relays = []
+        self.controllers_to_sensors = []
         self.status = None
-        self.name = None
+        self.controller_names = []
         self.sensors = []
         self.running = None
 
@@ -47,31 +50,56 @@ class Hydrawiser():
         :rtype: boolean
         """
 
-        # Read the controller information.
+        # Read the customer information and gather all controller info.
         self.controller_info = customer_details(self._user_token)
-        self.controller_status = status_schedule(self._user_token)
 
-        if self.controller_info is None or self.controller_status is None:
+        if self.controller_info is None:
             return False
 
-        # Only supports one controller right now.
-        # Use the first one from the array.
-        self.current_controller = self.controller_info['controllers'][0]
-        self.status = self.current_controller['status']
-        self.controller_id = self.current_controller['controller_id']
         self.customer_id = self.controller_info['customer_id']
-        self.num_relays = len(self.controller_status['relays'])
-        self.relays = self.controller_status['relays']
-        self.name = self.controller_info['controllers'][0]['name']
-        self.sensors = self.controller_status['sensors']
-        try:
-            self.running = self.controller_status['running']
-        except KeyError:
-            self.running = None
 
-        return True
+        self.controller_ids_info = self.controller_info['controllers']
 
-    def controller(self):
+        # Hydrawise supports a maximum of 5 controllers.
+
+        for x in self.controller_ids_info:
+            self.controller_status = status_schedule(self._user_token, self.controller_info['controllers'][x]['controller_id'])
+
+            if self.controller_status is None:
+                continue
+
+            # Use the current one from the array.
+
+            # These arrays are meant for keeping track of all controller information.
+            self.current_controller = self.controller_info['controllers'][x]
+            self.controller_names.append(self.controller_info['controllers'][x]['name'])
+            self.statuses.append(self.current_controller['status'])
+            self.controller_ids.append(self.current_controller['controller_id'])
+
+
+            # These arrays are meant for keeping track of all relay/sensor information.
+
+            self.num_relays += len(self.controller_status['relays'])
+            self.relays.append(self.controller_status['relays'])
+
+            # We keep an array in-sync with all relays and which controller ID they belong to.
+            for y in len(self.controller_status['relays']):
+                self.controllers_to_relays.append(self.current_controller['controller_id'])
+
+            self.sensors.append(self.controller_status['sensors'])
+
+            # We keep an array in-sync with all sensors and which controller ID they belong to.
+            for z in len(self.controller_status['sensors']):
+                self.controllers_to_sensors.append(self.current_controller['controller_id'])
+
+            try:
+                self.running = self.controller_status['running']
+            except KeyError:
+                self.running = None
+
+        return True     
+
+    def controllers(self):
         """
         Check if multiple controllers are connected.
 
@@ -79,12 +107,8 @@ class Hydrawiser():
         :rtype: string
         """
 
-        if hasattr(self, 'controller_id'):
-            if len(self.controller_info['controllers']) > 1:
-                raise TypeError(
-                    'Only one controller per account is supported.'
-                )
-            return self.controller_id
+        if hasattr(self, 'controller_ids'):
+            return self.controller_ids
         raise AttributeError('No controllers assigned to this account.')
 
     def __repr__(self):
@@ -95,7 +119,7 @@ class Hydrawiser():
         """
 
         return "<{0}: {1}>".format(self.__class__.__name__,
-                                   self.controller_id)
+                                   self.controller_ids)
 
     def relay_info(self, relay, attribute=None):
         """
@@ -140,12 +164,14 @@ class Hydrawiser():
         if zone is None:
             zone_cmd = 'suspendall'
             relay_id = None
+            controller_id = None
         else:
             if zone < 0 or zone > (len(self.relays) - 1):
                 return None
             else:
                 zone_cmd = 'suspend'
                 relay_id = self.relays[zone]['relay_id']
+                controller_id = self.controllers_to_relays[zone]
 
         # If days is 0 then remove suspension
         if days <= 0:
@@ -154,7 +180,7 @@ class Hydrawiser():
             # 1 day = 60 * 60 * 24 seconds = 86400
             time_cmd = time.mktime(time.localtime()) + (days * 86400)
 
-        return set_zones(self._user_token, zone_cmd, relay_id, time_cmd)
+        return set_zones(self._user_token, zone_cmd, relay_id, controller_id, time_cmd)
 
     def run_zone(self, minutes, zone=None):
         """
@@ -171,23 +197,26 @@ class Hydrawiser():
         if zone is None:
             zone_cmd = 'runall'
             relay_id = None
+            controller_id = None
         else:
             if zone < 0 or zone > (len(self.relays) - 1):
                 return None
             else:
                 zone_cmd = 'run'
                 relay_id = self.relays[zone]['relay_id']
+                controller_id = self.controllers_to_relays[zone]
 
         if minutes <= 0:
             time_cmd = 0
             if zone is None:
                 zone_cmd = 'stopall'
+                controller_id = None
             else:
                 zone_cmd = 'stop'
         else:
             time_cmd = minutes * 60
 
-        return set_zones(self._user_token, zone_cmd, relay_id, time_cmd)
+        return set_zones(self._user_token, zone_cmd, relay_id, controller_id, time_cmd)
 
     def list_running_zones(self):
         """

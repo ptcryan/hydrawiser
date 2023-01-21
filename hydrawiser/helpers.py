@@ -32,6 +32,34 @@ def status_schedule(token):
 
     return None
 
+def status_schedule(token, controller_id):
+    """
+    Returns the json string from the Hydrawise server after calling
+    statusschedule.php.
+
+    :param token: The users API token.
+    :type token: string
+    :param controller_id: The specific controller ID we are looking at.
+    :type controller_id: string
+    :returns: The response from the controller. If there was an error returns
+              None.
+    :rtype: string or None
+    """
+
+    url = 'https://app.hydrawise.com/api/v1/statusschedule.php'
+
+    payload = {
+        'api_key': token,
+        'controller_id': controller_id}
+
+    get_response = requests.get(url, params=payload, timeout=REQUESTS_TIMEOUT)
+
+    if get_response.status_code == 200 and \
+       'error_msg' not in get_response.json():
+        return get_response.json()
+
+    return None
+
 
 def customer_details(token):
     """
@@ -60,7 +88,7 @@ def customer_details(token):
     return None
 
 
-def set_zones(token, action, relay=None, time=None):
+def set_zones(token, action, relay=None, controller=None, time=None):
     """
     Controls the zone relays to turn sprinklers on and off.
 
@@ -72,6 +100,10 @@ def set_zones(token, action, relay=None, time=None):
     :param relay: The zone to take action on. If no zone is specified then the
                   action will be on all zones.
     :type relay: int or None
+    :param controller: The controller that the zone is attached to. If no zone
+                       is specified then the action will be on all zones of the
+                       primary controller.
+    :type controller: int or None
     :param time: The number of seconds to run or unix epoch time to suspend.
     :type time: int or None
     :returns: The response from the controller. If there was an error returns
@@ -115,20 +147,38 @@ def set_zones(token, action, relay=None, time=None):
     # If action is on a single relay then make sure a relay is specified.
     if action in ['stop', 'run', 'suspend'] and relay is None:
         return None
+    if controller is None:
+        get_response = requests.get('https://app.hydrawise.com/api/v1/'
+                                    'setzone.php?'
+                                    '&api_key={}'
+                                    '&action={}{}{}{}'
+                                    .format(token,
+                                            action,
+                                            relay_cmd,
+                                            period_cmd,
+                                            custom_cmd),
+                                    timeout=REQUESTS_TIMEOUT)
 
-    get_response = requests.get('https://app.hydrawise.com/api/v1/'
-                                'setzone.php?'
-                                '&api_key={}'
-                                '&action={}{}{}{}'
-                                .format(token,
-                                        action,
-                                        relay_cmd,
-                                        period_cmd,
-                                        custom_cmd),
-                                timeout=REQUESTS_TIMEOUT)
+        if get_response.status_code == 200 and \
+            'error_msg' not in get_response.json():
+            return get_response.json()
 
-    if get_response.status_code == 200 and \
-       'error_msg' not in get_response.json():
-        return get_response.json()
+    else:
+        get_response = requests.get('https://app.hydrawise.com/api/v1/'
+                                    'setzone.php?'
+                                    '&api_key={}'
+                                    '&action={}{}{}{}'
+                                    '&controller={}'
+                                    .format(token,
+                                            action,
+                                            relay_cmd,
+                                            period_cmd,
+                                            custom_cmd,
+                                            controller),
+                                    timeout=REQUESTS_TIMEOUT)
+
+        if get_response.status_code == 200 and \
+            'error_msg' not in get_response.json():
+            return get_response.json()
 
     return None
