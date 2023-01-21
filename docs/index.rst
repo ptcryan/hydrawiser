@@ -83,8 +83,6 @@ The following are examples for using the Hydrawiser library.
 Limitations
 ===========
 
-* Only one controller is supported
-
 .. toctree::
   :maxdepth: 4
   :caption: Contents:
