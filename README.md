@@ -76,3 +76,6 @@ True
 hw.time_remaining(3)
 247
 ```
+
+# Limitations
+* 'runall', 'stopall', and 'suspendall' commands only work on the primary controller.
