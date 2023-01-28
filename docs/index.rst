@@ -7,6 +7,8 @@ Welcome to Hydrawiser's documentation!
 ======================================
 This is a Python 2 and 3 library for controlling the Hunter (https://www.hunterindustries.com) Pro-HC sprinkler controller.
 
+More than one controller is NOW supported!
+
 .. warning::
   Note that this project has no official relationship to Hunter Industries. It was developed using the Hydrawise API (https://support.hydrawise.com/hc/en-us/article_attachments/205632298/Hydrawise_API.pdf). Use at your own risk.
 
@@ -83,7 +85,7 @@ The following are examples for using the Hydrawiser library.
 Limitations
 ===========
 
-* Only one controller is supported
+* 'runall', 'stopall', and 'suspendall' commands only work on the primary controller.
 
 .. toctree::
   :maxdepth: 4

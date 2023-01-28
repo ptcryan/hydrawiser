@@ -8,6 +8,8 @@
 
 This is a Python 2 and 3 library for controlling the [Hunter](https://www.hunterindustries.com) Pro-HC sprinkler controller.
 
+* More than one controller is NOW supported!
+
 *Note that this project has no official relationship to Hunter Industries. It was developed using the Hydrawise API v1.4. Use at your own risk.*
 
 Hydrawise Youtube video: https://youtu.be/raOEK8JjSUA<br/>
@@ -75,6 +77,5 @@ hw.time_remaining(3)
 247
 ```
 
-## Limitations
-
-* Only one controller is supported
+# Limitations
+* 'runall', 'stopall', and 'suspendall' commands only work on the primary controller.
